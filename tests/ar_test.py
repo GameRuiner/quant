@@ -7,24 +7,12 @@ from statsmodels.tsa.ar_model import AutoReg
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from ar import ar_model
+from simulate import generate_ar_data
 
 logger = logging.getLogger(__name__)
 
-@pytest.fixture
-def generate_ar_data():
-    def _gen(coeffs, intercept=0.0, n=1000, seed=42):
-        np.random.seed(seed)
-        p = len(coeffs)
-        noise = np.random.normal(0, 1, n)
-        y = np.zeros(n)
-        for i in range(p):
-            y[i] = intercept / (1 - sum(coeffs)) if sum(coeffs) < 1 else 0
-        for t in range(p, n):
-            y[t] = intercept + sum(coeffs[j] * y[t-j-1] for j in range(p)) + noise[t]
-        return y
-    return _gen
 
-def test_ar_model_vs_autoreg_p1(generate_ar_data, caplog):
+def test_ar_model_vs_autoreg_p1(caplog):
     coeffs = [0.7]
     intercept = 0
     y = generate_ar_data(coeffs, intercept=intercept)
@@ -41,7 +29,7 @@ def test_ar_model_vs_autoreg_p1(generate_ar_data, caplog):
     np.testing.assert_allclose(my_intercept, sm_intercept, rtol=1e-5, atol=1e-5)
     np.testing.assert_allclose(my_phi, sm_phi, rtol=1e-5, atol=1e-5)
 
-def test_ar_model_vs_autoreg_p2(generate_ar_data, caplog):
+def test_ar_model_vs_autoreg_p2(caplog):
     coeffs = [0.7, -0.3]
     intercept = 1.5
     y = generate_ar_data(coeffs, intercept=intercept)
@@ -60,7 +48,7 @@ def test_ar_model_vs_autoreg_p2(generate_ar_data, caplog):
     np.testing.assert_allclose(my_phi2, sm_phi2, rtol=1e-5, atol=1e-5)
     
     
-def test_ar_model_vs_autoreg_p3(generate_ar_data, caplog):
+def test_ar_model_vs_autoreg_p3(caplog):
     coeffs = [0.7, -0.3, 0.5]
     intercept = 0.5
     y = generate_ar_data(coeffs, intercept=intercept)

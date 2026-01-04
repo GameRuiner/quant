@@ -1,8 +1,16 @@
 import statsmodels.api as sm
+import numpy as np
 
-def ar_model(y):
-    y_lag = y[:-1]
-    y_now = y[1:]
-    X = sm.add_constant(y_lag)
-    model = sm.OLS(y_now, X).fit()
+def ar_model(y, p = 1):
+    """
+    Fit an AR(p) model using OLS.
+    Returns the fitted model.
+    """
+    n = len(y)
+    if n <= p:
+        raise ValueError("Length of y must be greater than p")
+    Y = y[p:]
+    X = np.column_stack([y[p - i - 1: n - i - 1] for i in range(p)])
+    X = sm.add_constant(X)
+    model = sm.OLS(Y, X).fit()
     return model

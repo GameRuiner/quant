@@ -1,16 +1,10 @@
 # Quant Project
 
-## Project Structure
+## TODO
 
-```
-quant/
-├── src/
-│   ├── ar.py
-│   └── ma.py
-├── tests/
-│   └── ar_test.py
-└── README.md
-```
+- implement OLS
+- implement GenericLikelihoodModel
+
 
 ## How to Run the Tests
 

@@ -20,3 +20,35 @@ def generate_ma_data(thetas, intercept=0.0, n=1000, seed=42):
         ma_sum = sum(thetas[j] * noise[t-j-1] for j in range(q) if t-j-1 >= 0)
         y[t] = intercept + noise[t] + ma_sum
     return y
+
+def generate_sarima_data(
+    ar_coeffs,
+    seasonal_ar_coeffs,
+    intercept=0.0,
+    s=12,
+    n=2000,
+    noise_std=1.0,
+    seed=42,
+):
+    """
+    Simple SARIMA data generator:
+    (p,0,0) x (P,0,0,s)
+    """
+    rng = np.random.default_rng(seed)
+    y = np.zeros(n)
+    eps = rng.normal(scale=noise_std, size=n)
+
+    for t in range(max(len(ar_coeffs), s * len(seasonal_ar_coeffs)), n):
+        val = intercept + eps[t]
+
+        # non-seasonal AR
+        for i, phi in enumerate(ar_coeffs, start=1):
+            val += phi * y[t - i]
+
+        # seasonal AR
+        for j, Phi in enumerate(seasonal_ar_coeffs, start=1):
+            val += Phi * y[t - j * s]
+
+        y[t] = val
+
+    return y

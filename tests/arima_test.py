@@ -6,7 +6,7 @@ from statsmodels.tsa.arima.model import ARIMA
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from arima import arima_model
-from simulate import generate_ar_data
+from tests.simulate import generate_ar_data
 
 logger = logging.getLogger(__name__)
 

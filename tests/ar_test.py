@@ -1,12 +1,11 @@
 import sys
 import os
 import numpy as np
-import pytest
 import logging
 from statsmodels.tsa.ar_model import AutoReg
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from ar import ar_model
+from ar import AR
 from tests.simulate import generate_ar_data
 
 logger = logging.getLogger(__name__)
@@ -17,7 +16,7 @@ def test_ar_model_vs_autoreg_p1(caplog):
     intercept = 0
     y = generate_ar_data(coeffs, intercept=intercept)
 
-    my_ar = ar_model(y, p=1)
+    my_ar = AR(y, p=1).fit()
     my_intercept, my_phi = my_ar.params
 
     sm_ar = AutoReg(y, lags=1, old_names=False).fit()
@@ -34,7 +33,7 @@ def test_ar_model_vs_autoreg_p2(caplog):
     intercept = 1.5
     y = generate_ar_data(coeffs, intercept=intercept)
 
-    my_ar = ar_model(y, p=2)
+    my_ar = AR(y, p=2).fit()
     my_intercept, my_phi1, my_phi2 = my_ar.params
 
     sm_ar = AutoReg(y, lags=2, old_names=False).fit()
@@ -53,7 +52,7 @@ def test_ar_model_vs_autoreg_p3(caplog):
     intercept = 0.5
     y = generate_ar_data(coeffs, intercept=intercept)
 
-    my_ar = ar_model(y, p=3)
+    my_ar = AR(y, p=3).fit()
     my_intercept, my_phi1, my_phi2, my_phi3 = my_ar.params
 
     sm_ar = AutoReg(y, lags=3, old_names=False).fit()

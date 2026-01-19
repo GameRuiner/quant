@@ -5,6 +5,7 @@
 - implement OLS
 - implement GenericLikelihoodModel
 - remove sarima and use sarima_mle in arima
+- add requirements.txt
 
 
 ## How to Run the Tests

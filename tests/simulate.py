@@ -52,3 +52,10 @@ def generate_sarima_data(
         y[t] = val
 
     return y
+
+def generate_nonlinear_ar_data(n=2000, noise_std=0.1, seed=42):
+    rng = np.random.default_rng(seed)
+    y = np.zeros(n, dtype=np.float32)
+    for t in range(1, n):
+        y[t] = 0.5 * y[t - 1] + 0.3 * y[t - 1] ** 2 + rng.normal(0, noise_std)
+    return y

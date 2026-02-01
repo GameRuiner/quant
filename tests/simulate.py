@@ -59,3 +59,28 @@ def generate_nonlinear_ar_data(n=2000, noise_std=0.1, seed=42):
     for t in range(1, n):
         y[t] = 0.5 * y[t - 1] + 0.3 * y[t - 1] ** 2 + rng.normal(0, noise_std)
     return y
+
+def generate_prophet_data(
+    n=1000,
+    trend_slope=0.05,
+    trend_intercept=10.0,
+    seasonal_amplitude=5.0,
+    seasonal_period=365,
+    noise_std=0.5,
+    seed=42,
+):
+    rng = np.random.default_rng(seed)
+    t = np.arange(n)
+
+    trend = trend_intercept + trend_slope * t
+    seasonality = seasonal_amplitude * np.sin(2 * np.pi * t / seasonal_period)
+
+    y = trend + seasonality + rng.normal(0, noise_std, size=n)
+
+    return t, y, trend, seasonality
+
+def generate_changepoint_data(changepoint=500):
+    t = np.arange(1000)
+    trend = np.where(t < changepoint, 0.05 * t, 0.05 * changepoint + 0.15 * (t - changepoint))
+    y = trend + np.random.normal(0, 0.3, size=1000)
+    return t, y, trend

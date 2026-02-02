@@ -1,6 +1,6 @@
 import numpy as np
 
-from prophet import ProphetModel
+from models.prophet.prophet import ProphetModel
 from tests.simulate import generate_prophet_data, generate_changepoint_data
 
 

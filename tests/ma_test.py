@@ -1,12 +1,11 @@
 import sys
 import os
 import numpy as np
-import pytest
 import logging
 from statsmodels.tsa.arima.model import ARIMA
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from ma import MovingAverageMLE
+from models.ma.ma import MovingAverageMLE
 from tests.simulate import generate_ma_data
 
 logger = logging.getLogger(__name__)

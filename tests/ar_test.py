@@ -5,7 +5,7 @@ import logging
 from statsmodels.tsa.ar_model import AutoReg
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from ar import AR
+from models.ar.ar import AR
 from tests.simulate import generate_ar_data
 
 logger = logging.getLogger(__name__)

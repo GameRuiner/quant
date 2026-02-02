@@ -4,7 +4,7 @@ from statsmodels.tsa.ar_model import AutoReg
 
 from tests.simulate import generate_ar_data, generate_nonlinear_ar_data
 import logging
-from src.arnn import ARNN
+from models.neural.arnn import ARNN
 
 logger = logging.getLogger(__name__)
 

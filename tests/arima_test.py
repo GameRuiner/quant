@@ -3,9 +3,7 @@ import os
 import numpy as np
 import logging
 from statsmodels.tsa.arima.model import ARIMA
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from arima import arima_model
+from models.arima.arima import ARIMAModel
 from tests.simulate import generate_ar_data
 
 logger = logging.getLogger(__name__)
@@ -17,7 +15,7 @@ def test_arima_model_vs_statsmodels_110(caplog):
     y = generate_ar_data(coeffs, intercept=intercept)
 
     # Fit custom ARIMA(1,1,0)
-    model = arima_model(y, p=1, d=1, q=0)
+    model = ARIMAModel(y, order=(1, 1, 0)).fit()
     my_params = model.params
     my_names = model.param_names
 
@@ -43,7 +41,7 @@ def test_arima_model_vs_statsmodels_210(caplog):
     y = generate_ar_data(coeffs, intercept=intercept)
 
     # Fit custom ARIMA(2,1,0)
-    model = arima_model(y, p=2, d=1, q=0)
+    model = ARIMAModel(y, order=(2, 1, 0)).fit()
     my_params = model.params
     my_names = model.param_names
 
@@ -70,7 +68,7 @@ def test_arima_model_vs_statsmodels_001(caplog):
     y = generate_ar_data(coeffs, intercept=intercept)
 
     # Fit custom ARIMA(0,0,1)
-    model = arima_model(y, p=0, d=0, q=1)
+    model = ARIMAModel(y, order=(0, 0, 1)).fit()
     my_params = model.params
     my_names = model.param_names
 
@@ -97,7 +95,7 @@ def test_arima_model_vs_statsmodels_101(caplog):
     y = generate_ar_data(coeffs, intercept=intercept)
 
     # Fit custom ARIMA(1,0,1)
-    model = arima_model(y, p=1, d=0, q=1)
+    model = ARIMAModel(y, order=(1, 0, 1)).fit()
     my_params = model.params
     my_names = model.param_names
 
@@ -122,13 +120,10 @@ def test_arima_model_vs_statsmodels_202(caplog):
     intercept = 1.0
     y = generate_ar_data(coeffs, intercept=intercept, n=2000)
 
-    # Fit custom ARIMA(1,2,1)
-    model = arima_model(y, p=2, d=0, q=2)
-    # model = ARIMA(y, order=(1, 0, 1)).fit()
+    model = ARIMAModel(y, order=(2, 0, 2)).fit()
     my_params = model.params
     my_names = model.param_names
 
-    # Fit statsmodels ARIMA(1,2,1)
     sm_model = ARIMA(y, order=(2, 0, 2)).fit()
     sm_params = sm_model.params
     sm_names = sm_model.param_names

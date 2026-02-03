@@ -4,7 +4,7 @@ from statsmodels.tsa.ar_model import AutoReg
 
 from tests.data.linear import ARGenerator
 
-from models.ar.ar import AR
+from ar import AR
 
 logger = logging.getLogger(__name__)
 

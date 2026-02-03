@@ -5,7 +5,7 @@ from statsmodels.tsa.ar_model import AutoReg
 from tests.data.linear import ARGenerator
 from tests.data.nonlinear import NonlinearARGenerator
 import logging
-from models.neural.arnn import ARNN
+from arnn import ARNN
 
 logger = logging.getLogger(__name__)
 

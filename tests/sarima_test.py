@@ -7,7 +7,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from tests.data.linear import SARIMAGenerator
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from models.arima.sarima_mle import SARIMAModel
+from sarima_mle import SARIMAModel
 
 logger = logging.getLogger(__name__)
 

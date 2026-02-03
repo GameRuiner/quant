@@ -15,7 +15,7 @@ from warnings import warn
 
 from statsmodels.tsa.statespace.tools import companion_matrix
 
-from models.arima.tools import diff, prepare_trend_data, prepare_exog, prepare_trend_spec, lagmat
+from tools import diff, prepare_trend_data, prepare_exog, prepare_trend_spec, lagmat
 
 
 class SARIMAModel(MLEModel):

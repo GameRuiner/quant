@@ -1,6 +1,6 @@
 import numpy as np
 
-from models.prophet.prophet import ProphetModel
+from prophet import ProphetModel
 
 from tests.data.prophet import ProphetLikeGenerator, ChangepointGenerator
 

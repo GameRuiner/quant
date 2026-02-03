@@ -1,7 +1,7 @@
 import numpy as np
 import logging
 from statsmodels.tsa.arima.model import ARIMA
-from models.arima.arima import ARIMAModel
+from arima import ARIMAModel
 from tests.data.linear import ARGenerator
 
 logger = logging.getLogger(__name__)

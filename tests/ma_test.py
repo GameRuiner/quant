@@ -4,7 +4,7 @@ from statsmodels.tsa.arima.model import ARIMA
 
 from tests.data.linear import MAGenerator
 
-from models.ma.ma import MovingAverageMLE
+from ma import MovingAverageMLE
 
 logger = logging.getLogger(__name__)
 

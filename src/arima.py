@@ -1,4 +1,4 @@
-from models.arima.sarima_mle import SARIMAModel
+from sarima_mle import SARIMAModel
 
 
 class ARIMAModel(SARIMAModel):

@@ -2,7 +2,8 @@ import numpy as np
 import torch
 from statsmodels.tsa.ar_model import AutoReg
 
-from tests.simulate import generate_ar_data, generate_nonlinear_ar_data
+from tests.data.linear import ARGenerator
+from tests.data.nonlinear import NonlinearARGenerator
 import logging
 from models.neural.arnn import ARNN
 
@@ -16,7 +17,7 @@ def test_arnn_vs_autoreg_p1_linear(caplog):
 
     coeffs = [0.7]
     intercept = 0.0
-    y = generate_ar_data(coeffs, intercept=intercept, n=2000)
+    y = ARGenerator(coeffs, intercept=intercept, n=2000).generate()
 
     # ----- Statsmodels AutoReg -----
     sm_ar = AutoReg(y, lags=1, trend="n").fit()
@@ -51,7 +52,7 @@ def test_arnn_hidden_beats_linear_ar(caplog):
     on nonlinear autoregressive data.
     """
 
-    y = generate_nonlinear_ar_data(n=10000)
+    y = NonlinearARGenerator(n=10000).generate()
 
     # ----- Linear AR (baseline) -----
     arnn_linear = ARNN(
@@ -86,7 +87,7 @@ def test_arnn_hidden_beats_linear_ar(caplog):
     assert mse_nonlinear < mse_linear
 
 def test_arnn_hidden_training_reduces_loss():
-    y = generate_nonlinear_ar_data(n=2000)
+    y = NonlinearARGenerator(n=2000).generate()
 
     model = ARNN(
         y,
@@ -109,7 +110,7 @@ def test_arnn_hidden_training_reduces_loss():
     assert loss_after < loss_before
 
 def test_arnn_hidden_is_reproducible():
-    y = generate_nonlinear_ar_data(n=2000)
+    y = NonlinearARGenerator(n=2000).generate()
 
     model1 = ARNN(y, p=1, hidden_size=5, random_state=123).fit()
     model2 = ARNN(y, p=1, hidden_size=5, random_state=123).fit()

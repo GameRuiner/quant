@@ -4,7 +4,7 @@ import numpy as np
 import logging
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-from tests.simulate import generate_sarima_data
+from tests.data.linear import SARIMAGenerator
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from models.arima.sarima_mle import SARIMAModel
@@ -12,13 +12,13 @@ from models.arima.sarima_mle import SARIMAModel
 logger = logging.getLogger(__name__)
 
 def test_sarima_100_100_12_vs_statsmodels(caplog):
-    y = generate_sarima_data(
+    y = SARIMAGenerator(
         ar_coeffs=[0.5],
         seasonal_ar_coeffs=[0.4],
         intercept=1.0,
         s=12,
         n=2500,
-    )
+    ).generate()
 
     model = SARIMAModel(
         y,
@@ -59,13 +59,13 @@ def test_sarima_100_100_12_vs_statsmodels(caplog):
         )
 
 def test_sarima_200_100_12_vs_statsmodels(caplog):
-    y = generate_sarima_data(
+    y = SARIMAGenerator(
         ar_coeffs=[0.6, -0.2],
         seasonal_ar_coeffs=[0.5],
         intercept=0.5,
         s=12,
         n=3000,
-    )
+    ).generate()
 
     model = SARIMAModel(
         y,
@@ -98,13 +98,13 @@ def test_sarima_200_100_12_vs_statsmodels(caplog):
         )
 
 def test_sarima_101_100_12_vs_statsmodels(caplog):
-    y = generate_sarima_data(
+    y = SARIMAGenerator(
         ar_coeffs=[0.5],
         seasonal_ar_coeffs=[0.3],
         intercept=0.0,
         s=12,
         n=3000,
-    )
+    ).generate()
 
     model = SARIMAModel(
         y,
@@ -142,13 +142,13 @@ def test_sarima_110_100_12_diff_vs_statsmodels(caplog):
     Trend must be 'n' and intercept must be zero.
     """
 
-    y = generate_sarima_data(
+    y = SARIMAGenerator(
         ar_coeffs=[0.6],
         seasonal_ar_coeffs=[0.4],
         intercept=0.0,
         s=12,
         n=3000,
-    )
+    ).generate()
 
     model = SARIMAModel(
         y,

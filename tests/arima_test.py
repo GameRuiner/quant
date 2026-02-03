@@ -1,10 +1,8 @@
-import sys
-import os
 import numpy as np
 import logging
 from statsmodels.tsa.arima.model import ARIMA
 from models.arima.arima import ARIMAModel
-from tests.simulate import generate_ar_data
+from tests.data.linear import ARGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +10,7 @@ logger = logging.getLogger(__name__)
 def test_arima_model_vs_statsmodels_110(caplog):
     coeffs = [0.7]
     intercept = 0.5
-    y = generate_ar_data(coeffs, intercept=intercept)
+    y = ARGenerator(coeffs, intercept=intercept).generate()
 
     # Fit custom ARIMA(1,1,0)
     model = ARIMAModel(y, order=(1, 1, 0)).fit()
@@ -38,7 +36,7 @@ def test_arima_model_vs_statsmodels_110(caplog):
 def test_arima_model_vs_statsmodels_210(caplog):
     coeffs = [0.7, -0.3]
     intercept = 1.0
-    y = generate_ar_data(coeffs, intercept=intercept)
+    y = ARGenerator(coeffs, intercept=intercept).generate()
 
     # Fit custom ARIMA(2,1,0)
     model = ARIMAModel(y, order=(2, 1, 0)).fit()
@@ -65,7 +63,7 @@ def test_arima_model_vs_statsmodels_210(caplog):
 def test_arima_model_vs_statsmodels_001(caplog):
     coeffs = [0.7, -0.3]
     intercept = 1.0
-    y = generate_ar_data(coeffs, intercept=intercept)
+    y = ARGenerator(coeffs, intercept=intercept).generate()
 
     # Fit custom ARIMA(0,0,1)
     model = ARIMAModel(y, order=(0, 0, 1)).fit()
@@ -92,7 +90,7 @@ def test_arima_model_vs_statsmodels_001(caplog):
 def test_arima_model_vs_statsmodels_101(caplog):
     coeffs = [0.5]
     intercept = 0.0
-    y = generate_ar_data(coeffs, intercept=intercept)
+    y = ARGenerator(coeffs, intercept=intercept).generate()
 
     # Fit custom ARIMA(1,0,1)
     model = ARIMAModel(y, order=(1, 0, 1)).fit()
@@ -118,7 +116,7 @@ def test_arima_model_vs_statsmodels_101(caplog):
 def test_arima_model_vs_statsmodels_202(caplog):
     coeffs = [0.5, -0.2]
     intercept = 1.0
-    y = generate_ar_data(coeffs, intercept=intercept, n=2000)
+    y = ARGenerator(coeffs, intercept=intercept, n=2000).generate()
 
     model = ARIMAModel(y, order=(2, 0, 2)).fit()
     my_params = model.params

@@ -1,18 +1,16 @@
-import sys
-import os
 import numpy as np
 import logging
 from statsmodels.tsa.arima.model import ARIMA
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+from tests.data.linear import MAGenerator
+
 from models.ma.ma import MovingAverageMLE
-from tests.simulate import generate_ma_data
 
 logger = logging.getLogger(__name__)
 
 def test_ma_model_vs_arima_q1(caplog):
     coeffs = [0.6]
-    y = generate_ma_data(coeffs)
+    y = MAGenerator(coeffs).generate()
 
     # Fit custom MA(1)
     model = MovingAverageMLE(y, q=1)
@@ -33,7 +31,7 @@ def test_ma_model_vs_arima_q1(caplog):
 
 def test_ma_model_vs_arima_q2(caplog):
     coeffs = [0.5, -0.3]
-    y = generate_ma_data(coeffs)
+    y = MAGenerator(coeffs).generate()
 
     # Fit custom MA(2)
     model = MovingAverageMLE(y, q=2)
@@ -56,7 +54,7 @@ def test_ma_model_vs_arima_q2(caplog):
 
 def test_ma_model_vs_arima_q3(caplog):
     coeffs = [0.4, -0.2, 0.1]
-    y = generate_ma_data(coeffs)
+    y = MAGenerator(coeffs).generate()
 
     # Fit custom MA(3)
     model = MovingAverageMLE(y, q=3)
